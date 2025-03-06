@@ -21,7 +21,7 @@ namespace Gestions.Models
 
         [Required, MaxLength(20)]
         public string Telephonehone { get; set; }
-        [Required, MaxLength(20)]
+        [ MaxLength(20)]
         public string CNI { get; set; }
     }
 }

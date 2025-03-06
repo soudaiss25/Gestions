@@ -19,6 +19,18 @@ namespace Gestions.Models
         public DbSet<Appartement> Appartements { get; set; }
         public DbSet<Proprietaire> Proprietaires { get; set; }
         public DbSet<Locataire> Locataires { get; set; }
+        public DbSet<ModePaiement> ModePaiements { get; set; }
+        public DbSet<Gestionnaire> Gestionnaires { get; set; }
+        public DbSet<Paiement> Paiements { get; set; }
+        public DbSet<TypeAppartement> typeAppartements { get; set; }
+        public DbSet<Admin> admins { get; set; }
+        public DbSet<ContratLocation> contratLocation { get; set; }
+        public DbSet<Td_Erreur> td_Erruers { get; set; }
+
+        internal void SaveChanges(Proprietaire p)
+        {
+            throw new NotImplementedException();
+        }
     }
 
  }

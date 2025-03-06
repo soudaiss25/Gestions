@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Gestions.Models;
+using Gestions.Views;
 
 namespace Gestions
 {
@@ -19,6 +20,9 @@ namespace Gestions
         }
 
         Dbgestionscontext db = new Dbgestionscontext();
+
+        public FrmPrintListeProprietaire FrmPrintListeProprietaire { get; private set; }
+
         private void ResetForm()
         {
             // Réinitialise les champs de texte
@@ -26,12 +30,12 @@ namespace Gestions
             tfNom.Text = string.Empty;
             tf_Telphone.Text = string.Empty;
             tfEmail.Text = string.Empty;
-            tfCni.Text = string.Empty;
+         
             tfNinea.Text = string.Empty;
             tfRccn.Text = string.Empty;
-            dgProprietaire.DataSource = db.Proprietaires.Select(a=>new { a.IdPersonne,a.Prenom,a.Nom,a.Telephonehone,a.Email,a.CNI,a.Ninea,a.Rccm}).ToList();
+            dgProprietaire.DataSource = db.Proprietaires.Select(a => new { a.IdPersonne, a.Prenom, a.Nom, a.Telephonehone, a.Email, a.CNI, a.Ninea, a.Rccm }).ToList();
             tfPrenom.Focus();
-           
+
 
         }
 
@@ -47,10 +51,10 @@ namespace Gestions
             tfNom.Text = dgProprietaire.CurrentRow.Cells[2].Value.ToString();
             tf_Telphone.Text = dgProprietaire.CurrentRow.Cells[3].Value.ToString();
             tfEmail.Text = dgProprietaire.CurrentRow.Cells[4].Value.ToString();
-            tfCni.Text = dgProprietaire.CurrentRow.Cells[5].Value.ToString();
-            tfNinea.Text = dgProprietaire.CurrentRow.Cells[6].Value.ToString();
+          
+            tfNinea.Text = dgProprietaire.CurrentRow.Cells[5].Value.ToString();
             tfRccn.Text = dgProprietaire.CurrentRow.Cells[7].Value.ToString();
-
+            btnAjouter.Enabled = false;
         }
 
         private void btnAjouter_Click(object sender, EventArgs e)
@@ -62,7 +66,7 @@ namespace Gestions
                     string.IsNullOrWhiteSpace(tfNom.Text) ||
                     string.IsNullOrWhiteSpace(tf_Telphone.Text) ||
                     string.IsNullOrWhiteSpace(tfEmail.Text) ||
-                    string.IsNullOrWhiteSpace(tfCni.Text) ||
+                   
                     string.IsNullOrWhiteSpace(tfNinea.Text) ||
                     string.IsNullOrWhiteSpace(tfRccn.Text))
                 {
@@ -75,21 +79,21 @@ namespace Gestions
 
                 p.Prenom = tfPrenom.Text.Trim();
                 p.Nom = tfNom.Text.Trim();
-                    p.Telephonehone = tf_Telphone.Text.Trim();
+                p.Telephonehone = tf_Telphone.Text.Trim();
                 p.Email = tfEmail.Text.Trim();
-                p.CNI = tfCni.Text.Trim();
+            
                 p.Ninea = tfNinea.Text.Trim();
                 p.Rccm = tfRccn.Text.Trim();
-                
 
-               
+
+
                 db.Proprietaires.Add(p);
                 db.SaveChanges();
 
-                
+
                 MessageBox.Show("Propriétaire ajouté avec succès.", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                
+
                 ResetForm();
             }
             catch (Exception ex)
@@ -101,7 +105,7 @@ namespace Gestions
 
         private void btnModifier_Click(object sender, EventArgs e)
         {
-            int? id = int.Parse( dgProprietaire.CurrentRow.Cells[0].Value.ToString()); 
+            int? id = int.Parse(dgProprietaire.CurrentRow.Cells[0].Value.ToString());
             var p = db.Proprietaires.Find(id);
             if (p != null)
             {
@@ -109,18 +113,13 @@ namespace Gestions
                 p.Nom = tfNom.Text.Trim();
                 p.Telephonehone = tf_Telphone.Text.Trim();
                 p.Email = tfEmail.Text.Trim();
-                p.CNI = tfCni.Text.Trim();
+               
                 p.Ninea = tfNinea.Text.Trim();
                 p.Rccm = tfRccn.Text.Trim();
-
-
-
-                db.Proprietaires.Add(p);
                 db.SaveChanges();
-
-
-                MessageBox.Show("Propriétaire ajouté avec succès.", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ResetForm() ;
+                MessageBox.Show("Propriétaire modifier avec succès.", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ResetForm();
+                btnAjouter.Enabled = true;
             }
         }
 
@@ -130,9 +129,9 @@ namespace Gestions
             var p = db.Proprietaires.Find(id);
             if (p != null)
             {
-                db.Proprietaires.Remove(p); 
+                db.Proprietaires.Remove(p);
                 db.SaveChanges();
-                ResetForm() ;
+                ResetForm();
             }
         }
 
@@ -173,6 +172,14 @@ namespace Gestions
 
         private void dgProprietaire_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
+        }
+
+        private void btn_imprimer_Click(object sender, EventArgs e)
+        {
+            FrmPrintListeProprietaire f = new FrmPrintListeProprietaire();
+            f.Show();
+            this.Enabled = false;
 
         }
     }

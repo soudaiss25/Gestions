@@ -24,7 +24,9 @@ namespace Gestions.Models
 
         [ForeignKey("IdProprietaire")]
         public virtual Proprietaire Proprietaire { get; set; }
-        
+        public int idTypeAppartement { get; set; }
+        [ForeignKey("idTypeAppartement")]
+        public virtual TypeAppartement TypeAppartement { get; set; }
         public bool Disponible { get; set; }
 
 

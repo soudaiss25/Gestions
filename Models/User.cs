@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace Gestions.Models
 {
-    public class User
+    public class User : Personne
     {
-        [Key]
-        public int Id { get; set; } 
-        [Required]
-        public string Name { get; set; }
+        [Key]  
+        
+        [MaxLength(20)]
+        public string identifiant { get; set; }
+        [ MaxLength(255)]
+        public string MotDePasse { get; set; }
+
+        [MaxLength(20)]
+        public string status { get; set; }
+        [MaxLength(20)]
+        public string role { get; set; }
     }
 }
